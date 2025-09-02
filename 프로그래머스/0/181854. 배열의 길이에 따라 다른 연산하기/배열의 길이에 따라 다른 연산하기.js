@@ -1,0 +1,18 @@
+function solution(arr, n) {
+    let answer = [];
+    // 홀수
+    if (arr.length % 2 !== 0) {
+        for (let i = 0; i < arr.length; i++) {
+            if (i % 2 === 0) answer.push(arr[i] + n);
+            else answer.push(arr[i]);
+        }
+    }
+    // 짝수
+    if (arr.length % 2 === 0) {
+        for (let i = 0; i < arr.length; i++) {
+            if (i % 2 !== 0) answer.push(arr[i] + n);
+            else answer.push(arr[i]);
+        }
+    }
+    return answer;
+}
