@@ -1,14 +1,15 @@
+// reserve에서 lost와 일치하는 값을 제외해서 순수 도난자, 순수 여벌 소유자 필터링
+// 순수 도난자에서 구제받을 수 있는 사람을 제외하고 숫자를 구하여 n에서 뺌
 function solution(n, lost, reserve) {
-    // 여벌을 가져왔는데 도난당한 케이스 예외처리
-    const realLost = lost.filter(l => !reserve.includes(l)).sort((a, b) => a - b);
-    const realReserve = reserve.filter(r => !lost.includes(r)).sort((a, b) => a - b);
-    
-    return n - realLost.filter(l => {
-        const lender = realReserve.find(r => Math.abs(r - l) === 1); // 앞 번호부터 빌려주기
+    let pureLost = lost.filter(v => !reserve.includes(v)).sort((a, b) => a - b); // 순수 도난자
+    let pureReserve = reserve.filter(v => !lost.includes(v)).sort((a, b) => a - b); // 순수 여벌 소유자
+    // 모든 학생 - 순수 도난자 수
+    return n - pureLost.filter(l => {
+        const lender = pureReserve.find(r => Math.abs(r - l) === 1);
         if (lender !== undefined) {
-            realReserve.splice(realReserve.indexOf(lender), 1);
-            return false;
+            pureReserve.splice(pureReserve.indexOf(lender), 1); // 제거
+            return false; // 순수 도난자 미포함
         }
-        return true;
+        return true; // 순수 도난자 포함
     }).length;
 }
